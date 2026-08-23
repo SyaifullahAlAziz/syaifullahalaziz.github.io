@@ -104,21 +104,10 @@
           </script>
           <div class="swiper-wrapper align-items-center">
 
-            <div class="swiper-slide">
-              <img src="assets/img/portfolio/app-1.jpg" alt="">
-            </div>
-
             <!-- <div class="swiper-slide">
-              <img src="assets/img/portfolio/product-1.jpg" alt="">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="assets/img/portfolio/branding-1.jpg" alt="">
-            </div>
-
-            <div class="swiper-slide">
-              <img src="assets/img/portfolio/books-1.jpg" alt="">
+              <img src="assets/portfolio/app-1.jpg" alt="">
             </div> -->
+
 
           </div>
           <div class="swiper-button-prev"></div>
@@ -250,27 +239,28 @@
         const portfolioDescriptions = {
           "Human Resource Information System": `
             <p>
-              Deskripsi: Sistem informasi berbasis web yang dirancang untuk membantu perusahaan mengelola data dan
+              Sistem informasi berbasis web yang dirancang untuk membantu perusahaan mengelola data dan
               administrasi sumber daya manusia secara terintegrasi. Sistem ini mencakup pengelolaan data karyawan,
               absensi berbasis lokasi, cuti, serta informasi kepegawaian untuk meningkatkan efisiensi dan akurasi
               proses administrasi HR.
 
+              <br>
               Fitur utama:
 
-              Manajemen data karyawan dan informasi kepegawaian
-              Pengelolaan departemen, jabatan, dan struktur organisasi
-              Absensi berbasis lokasi (GPS) untuk memastikan karyawan melakukan absensi sesuai lokasi yang telah
-              ditentukan
-              Pencatatan waktu masuk dan keluar karyawan secara real-time
-              Monitoring dan rekapitulasi kehadiran karyawan
-              Pengajuan dan pengelolaan cuti
-              Dashboard HR untuk memantau data kepegawaian dan kehadiran
-              Manajemen pengguna dan hak akses berdasarkan role
-              Laporan dan rekap data kepegawaian
+              <li> Manajemen data karyawan dan informasi kepegawaian </li>
+              <li> Pengelolaan departemen, jabatan, dan struktur organisasi </li>
+              <li> Absensi berbasis lokasi (GPS) untuk memastikan karyawan melakukan absensi sesuai lokasi yang telah
+              ditentukan </li>
+              <li> Pencatatan waktu masuk dan keluar karyawan secara real-time </li>
+              <li> Monitoring dan rekapitulasi kehadiran karyawan </li>
+              <li> Pengajuan dan pengelolaan cuti </li>
+              <li> Dashboard HR untuk memantau data kepegawaian dan kehadiran </li>
+              <li> Manajemen pengguna dan hak akses berdasarkan role </li>
+              <li> Laporan dan rekap data kepegawaian </li>
 
               Sistem ini membantu perusahaan memusatkan pengelolaan data HR, meminimalkan proses administrasi manual,
               serta meningkatkan akurasi dan transparansi dalam pencatatan kehadiran karyawan.
-              <br>
+              <br> <br>
               Tech Stack: HTML, CSS, Javascript, Laravel 12, MySQL, Bootstrap
             </p>
           `,
@@ -360,6 +350,27 @@
           `
         };
 
+        // Konfigurasi Gambar Slide Dinamis
+        // Anda bisa menambahkan banyak gambar untuk masing-masing portofolio di sini
+        const portfolioImages = {
+          "Human Resource Information System": [
+            "assets/portfolio/hris/halaman login.jpg",
+            "assets/portfolio/hris/halaman dashboard.jpg",
+            "assets/portfolio/hris/halaman department.jpg",
+            "assets/portfolio/hris/halaman employee.jpg",
+            "assets/portfolio/hris/halaman role.jpg",
+            "assets/portfolio/hris/halaman task.jpg",
+            "assets/portfolio/hris/halaman leave request.jpg",
+            "assets/portfolio/hris/halaman payroll.jpg",
+            "assets/portfolio/hris/halaman presence.jpg"
+          ]
+          // Contoh penambahan untuk portofolio lain:
+          // "Nama Portofolio": [
+          //   "assets/portfolio/folder/gambar1.jpg", 
+          //   "assets/portfolio/folder/gambar2.jpg"
+          // ],
+        };
+
         const pageTitle = document.querySelector('.page-title h1');
         if (pageTitle) pageTitle.innerText = data.title;
 
@@ -372,10 +383,26 @@
           descContainer.innerHTML = '<h2>' + data.title + '</h2>' + customDesc;
         }
 
-        const firstSlideImg = document.querySelector('.portfolio-details-slider .swiper-wrapper .swiper-slide:first-child img');
-        if (firstSlideImg) {
-          firstSlideImg.src = data.imgSrc;
-          firstSlideImg.alt = data.title;
+        // --- MANAGE SLIDER IMAGES ---
+        const swiperWrapper = document.querySelector('.portfolio-details-slider .swiper-wrapper');
+        if (swiperWrapper) {
+          swiperWrapper.innerHTML = ''; // Hapus slide default
+
+          let images = portfolioImages[data.title];
+          // Jika tidak ada di portfolioImages, gunakan gambar utama (imgSrc) dari localStorage
+          if (!images || images.length === 0) {
+            images = [data.imgSrc];
+          }
+
+          images.forEach(imgUrl => {
+            const slide = document.createElement('div');
+            slide.className = 'swiper-slide';
+            const img = document.createElement('img');
+            img.src = imgUrl;
+            img.alt = data.title;
+            slide.appendChild(img);
+            swiperWrapper.appendChild(slide);
+          });
         }
 
         const projectInfo = document.querySelector('.portfolio-info ul');
